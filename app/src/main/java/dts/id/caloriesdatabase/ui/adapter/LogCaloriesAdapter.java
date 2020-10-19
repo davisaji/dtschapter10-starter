@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,11 +39,21 @@ public class LogCaloriesAdapter extends RecyclerView.Adapter<LogCaloriesAdapter.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //Todo Melengkapi onBindViewHolder
+        LogCaloriesEntity logCaloriesEntity= mLogCaloriesEntities.get(position);
+        holder.tvWaktuMakan.setText(logCaloriesEntity.getWaktuMakan());
+        holder.tvFoodName.setText(logCaloriesEntity.getMakanan());
+        holder.tvCalory.setText(logCaloriesEntity.getKaloriMakanan());
     }
 
     @Override
     public int getItemCount() {
         return mLogCaloriesEntities==null? 0:mLogCaloriesEntities.size();
+    }
+
+    public interface OnCaloryClickListener {
+        public void onClick(View v, int position){
+
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

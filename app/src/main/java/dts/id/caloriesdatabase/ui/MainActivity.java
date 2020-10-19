@@ -17,12 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         CalculateBMRFragment calculateBMRFragment = new CalculateBMRFragment();
         FragmentTransaction fragmentTransaction =  this.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, calculateBMRFragment)
-                .addToBackStack(null)
-                .commit();
+        fragmentTransaction.replace(R.id.fragment_container, calculateBMRFragment).addToBackStack(null).commit();
     }
 }

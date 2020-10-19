@@ -27,7 +27,7 @@ import dts.id.caloriesdatabase.db.entity.LogCaloriesEntity;
 import dts.id.caloriesdatabase.ui.adapter.LogCaloriesAdapter;
 import dts.id.caloriesdatabase.viewModel.LogCaloriesViewModel;
 
-public class LogCaloriesFragment extends Fragment {
+public class LogCaloriesFragment extends Fragment implements LogCaloriesAdapter.OnCaloryClickListener{
 
     private LogCaloriesViewModel logCaloriesViewModel;
     private Button mButtonAddFood;
@@ -53,7 +53,7 @@ public class LogCaloriesFragment extends Fragment {
         tvCaloriesInformation = mView.findViewById(R.id.tvCaloriesInformation);
 
         mRecyclerCalories = mView.findViewById(R.id.recyclerCalories);
-        mRecyclerCalories.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerCalories.setLayoutManager(new LinearLayoutManager(getActivity()));//LayoutManager
 
         mSharedPreferences = getActivity().getSharedPreferences(CalculateBMRFragment.KEY_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         bmr = mSharedPreferences.getFloat(CalculateBMRFragment.KEY_BMR,0);
@@ -65,16 +65,22 @@ public class LogCaloriesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction fragmentManager = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentManager.replace(R.id.fragment_container,new AddDataCaloryFragment())
-                        .addToBackStack(null)
-                        .commit();
+                fragmentManager.replace(R.id.fragment_container,new AddDataCaloryFragment()).addToBackStack(null).commit();
             }
         });
 
-
         adapterLogCalories = new LogCaloriesAdapter(getActivity());
         mRecyclerCalories.setAdapter(adapterLogCalories);
-        //Todo 7 Menggunakan View Model untuk Mengeset adapter
 
+        //mRecyclerCalories.setOnClickListener(this);
+
+        //Todo 7 Menggunakan View Model untuk Mengeset adapter
+        logCaloriesViewModel = ViewModelProviders.of(getActivity()).get(LogCaloriesViewModel.class);
+        logCaloriesViewModel.GetListLogCalories(date).observe(getActivity(), new Observer<List<LogCaloriesEntity>>() {
+            @Override
+            public void onChanged(List<LogCaloriesEntity> logCaloriesEntities) {
+                adapterLogCalories.SetListLogCalories(logCaloriesEntities);
+            }
+        });
     }
 }

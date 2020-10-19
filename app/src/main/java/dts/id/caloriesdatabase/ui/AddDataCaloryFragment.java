@@ -16,9 +16,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import dts.id.caloriesdatabase.CaloriesRepository;
+import androidx.lifecycle.ViewModelProviders;
 import dts.id.caloriesdatabase.R;
 import dts.id.caloriesdatabase.db.entity.LogCaloriesEntity;
+import dts.id.caloriesdatabase.viewModel.LogCaloriesViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +32,8 @@ public class AddDataCaloryFragment extends Fragment {
     private Button buttonSaveFood;
     private SharedPreferences mSharedPreferences;
     private String date;
+
+    private LogCaloriesViewModel logCaloriesViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,8 +64,12 @@ public class AddDataCaloryFragment extends Fragment {
 
                 if (Validation(makanan, kaloriMakanan)) {
                     //Todo 6 Memanggil method yang ada di viem model untuk menginsert Db
-
+                    logCaloriesViewModel = ViewModelProviders.of(getActivity()).get(LogCaloriesViewModel.class);
+                    LogCaloriesEntity logCaloriesEntity = new LogCaloriesEntity(waktuMakan, makanan, kaloriMakanan, tanggal);
+                    //Code yang ditambahkan
+                    logCaloriesViewModel.InsertLogCalories(logCaloriesEntity);
                     DialogSave(mView, "Tersimpan!!", "Data Berhasil Disimpan. Apakah Anda Akan Memasukkan Data Lagi?");
+                    //DialogSave(mView, "Tersimpan!!", "Data Berhasil Disimpan. Apakah Anda Akan Memasukkan Data Lagi?");
                 } else {
                     new AlertDialog.Builder(mView.getContext())
                             .setTitle("Attention!!")

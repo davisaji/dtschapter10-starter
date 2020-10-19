@@ -13,13 +13,18 @@ import dts.id.caloriesdatabase.CaloriesRepository;
 import dts.id.caloriesdatabase.db.entity.LogCaloriesEntity;
 
 public class LogCaloriesViewModel extends AndroidViewModel {
-    //Todo 5 Membuat View Model sebagai untuk komunikasi antara UI dan Repository
     private CaloriesRepository mCaloriesRepository;
     private LiveData<List<LogCaloriesEntity>> listLogCalories;
 
     public LogCaloriesViewModel(@NonNull Application application) {
         super(application);
-
+        mCaloriesRepository = new CaloriesRepository(application);
     }
 
+    public LiveData<List<LogCaloriesEntity>> GetListLogCalories(String date) {
+        return listLogCalories = mCaloriesRepository.GetAllCaloriesByDate(date);
+    }
+    public void InsertLogCalories(LogCaloriesEntity mLogCaloriesEntity) {
+        mCaloriesRepository.InsertCalories(mLogCaloriesEntity);
+    }
 }

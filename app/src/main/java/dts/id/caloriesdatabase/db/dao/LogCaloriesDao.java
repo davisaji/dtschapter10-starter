@@ -13,5 +13,8 @@ import dts.id.caloriesdatabase.db.entity.LogCaloriesEntity;
 @Dao
 public interface LogCaloriesDao {
     //Todo 2 Melengkapi DAO
-
+    @Insert
+    void InsertLogCalories(LogCaloriesEntity logCaloriesEntity);
+    @Query("Select * from log_calories Where tanggal = :date")
+    LiveData<List<LogCaloriesEntity>> GetAllLogCalories(String date);
 }
